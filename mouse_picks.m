@@ -22,6 +22,9 @@ switch action
       curobj = hObj;
       xdata = get(hObj,'xdata');
       ydata = get(hObj,'ydata');
+      ydata(1) = -ydata(2);
+      newPole = [xdata(1) ydata(1);xdata(2) ydata(2)];
+      assignin('base','newPole',newPole)
       [~,ind] = min(sum((xdata-pos(1)).^2+(ydata-pos(3)).^2,1));
       set(gcf,...
           'WindowButtonMotionFcn',  {@Mouse_Callback,'move'},...
@@ -34,6 +37,5 @@ switch action
       set(gcf,...
           'WindowButtonMotionFcn',  '',...
           'WindowButtonUpFcn',      '');
-      assignin('base','changedPole',ydata)
 end
 end
