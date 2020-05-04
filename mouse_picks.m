@@ -1,7 +1,9 @@
 % Plot a line and points
-G = tf([1 2],[1 3 9]);
+clear all
+clc
+G = tf([1 2 4],[ 1 -2 3 9 1 1 1 ]);
 [p,z] = pzmap(G);
-%%
+
 figure
 plot(real(p),imag(p),'xr','buttondownfcn',{@Mouse_Callback,'down'});
 hold on
@@ -16,14 +18,15 @@ grid minor
 function Mouse_Callback(hObj,~,action)
 clc
 persistent curobj xdata ydata ind
-pos = get(gca,'CurrentPoint');
+pos = get(gca,'CurrentPoint')
+newPole = [pos(1,1) pos(1,2);pos(2,1) pos(2,2)];
 switch action
   case 'down'
       curobj = hObj;
       xdata = get(hObj,'xdata');
       ydata = get(hObj,'ydata');
       ydata(1) = -ydata(2);
-      newPole = [xdata(1) ydata(1);xdata(2) ydata(2)];
+      
       assignin('base','newPole',newPole)
       [~,ind] = min(sum((xdata-pos(1)).^2+(ydata-pos(3)).^2,1));
       set(gcf,...
