@@ -42,9 +42,9 @@ G =curr_G;
 des.loopnic(G)
 ngrid
 
-% spec2.show('freq');
-% des.clmag(G,1)
-% ylim([-55 10])
+spec2.show('freq');
+des.clmag(G,1)
+ylim([-55 10])
 %% Filter Design - F
 F = (1)/(0.3*s+1);
 spec2.show('freq');
