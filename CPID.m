@@ -18,7 +18,7 @@ end
 
 if flag == 1
     taui = 1/ki;
-    CPID = kp(1 + 1/(taui*s) + taud*s);
+    CPID = kp*(1 + 1/(taui*s) + taud*s);
 end
 
 % if flag == 2
