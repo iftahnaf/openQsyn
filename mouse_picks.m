@@ -1,9 +1,8 @@
 % Plot a line and points
-clear all
+clear
 clc
-G = tf([1 2 4],[ 1 -2 3 9 1 1 1 ]);
+G = tf([1 1 1 ],[1 2 3 1 1 1]);
 [p,z] = pzmap(G);
-
 figure
 plot(real(p),imag(p),'xr','buttondownfcn',{@Mouse_Callback,'down'});
 hold on
@@ -17,30 +16,37 @@ grid minor
 % Callback function for each point
 function Mouse_Callback(hObj,~,action)
 persistent curobj xdata ydata ind
-clc
-pos = get(gca,'CurrentPoint')
-newPole = [pos(1,1) pos(1,2);pos(2,1) pos(2,2)];
+pos = get(gca,'CurrentPoint');
 switch action
-  case 'down'
-      curobj = hObj;
-      xdata = get(hObj,'xdata');
-      ydata = get(hObj,'ydata');
-      [~,ind] = min(sum((xdata-pos(1)).^2+(ydata-pos(3)).^2,1));
-      set(gcf,...
-          'WindowButtonMotionFcn',  {@Mouse_Callback,'move'},...
-          'WindowButtonUpFcn',      {@Mouse_Callback,'up'});
-  case 'move'
-      % vertical move
-      ydata(ind) = pos(3);
-      set(curobj,'ydata',ydata)
-      xdata(ind) = pos(1);
-      set(curobj,'xdata',xdata)
-      ydata(1) = - ydata(2);
-      xdata(1) =  xdata(2);
-  case 'up'
-      set(gcf,...
-          'WindowButtonMotionFcn',  '',...
-          'WindowButtonUpFcn',      '');
+    case 'down'
+        curobj = hObj;
+        xdata = get(hObj,'xdata');
+        ydata = get(hObj,'ydata');
+        [~,ind] = min(sum((xdata-pos(1)).^2+(ydata-pos(3)).^2,1));
+        set(gcf,...
+            'WindowButtonMotionFcn',  {@Mouse_Callback,'move'},...
+            'WindowButtonUpFcn',      {@Mouse_Callback,'up'});
+    case 'move'
+        even_place = mod(ind,2);
+        data_length = length(ydata);
+        
+        if ind ~= data_length && even_place
+            ydata(ind-1) = - ydata(ind);
+            xdata(ind-1) = xdata(ind);
+            ydata(ind) = pos(3);
+            set(curobj,'ydata',ydata)
+            xdata(ind) = pos(1);
+            set(curobj,'xdata',xdata)
+        end
+
+        if ydata(ind) == 0
+            xdata(ind) = pos(1);
+            set(curobj,'xdata',xdata)
+        end
+    case 'up'
+        set(gcf,...
+            'WindowButtonMotionFcn',  '',...
+            'WindowButtonUpFcn',      '');
 end
 end
 
