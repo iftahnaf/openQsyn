@@ -39,7 +39,7 @@ set(s,'DisplayFormat','Frequency');
 
 curr_G= (1/(s+1));%*G_Lead*G_Lag;
 G =curr_G;
-% des.loopnic(G)
+des.loopnic(G)
 ngrid
 
 % spec2.show('freq');

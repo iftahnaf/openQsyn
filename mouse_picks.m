@@ -16,8 +16,8 @@ grid minor
 
 % Callback function for each point
 function Mouse_Callback(hObj,~,action)
-clc
 persistent curobj xdata ydata ind
+clc
 pos = get(gca,'CurrentPoint')
 newPole = [pos(1,1) pos(1,2);pos(2,1) pos(2,2)];
 switch action
@@ -25,9 +25,6 @@ switch action
       curobj = hObj;
       xdata = get(hObj,'xdata');
       ydata = get(hObj,'ydata');
-      ydata(1) = -ydata(2);
-      
-      assignin('base','newPole',newPole)
       [~,ind] = min(sum((xdata-pos(1)).^2+(ydata-pos(3)).^2,1));
       set(gcf,...
           'WindowButtonMotionFcn',  {@Mouse_Callback,'move'},...
@@ -36,9 +33,14 @@ switch action
       % vertical move
       ydata(ind) = pos(3);
       set(curobj,'ydata',ydata)
+      xdata(ind) = pos(1);
+      set(curobj,'xdata',xdata)
+      ydata(1) = - ydata(2);
+      xdata(1) =  xdata(2);
   case 'up'
       set(gcf,...
           'WindowButtonMotionFcn',  '',...
           'WindowButtonUpFcn',      '');
 end
 end
+
