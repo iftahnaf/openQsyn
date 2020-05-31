@@ -1,8 +1,4 @@
-% Plot a line and points
-
-clear
-clc
-G = tf([1 1 1 ],[1 2 3 1 1 1 2 3 1 ]);
+function [] = mouse_picks(G)
 [p,z] = pzmap(G);
 
 figure
@@ -14,6 +10,8 @@ plot([-10 10],[0 0],'k','linewidth',1)
 hold on
 plot([0 0],[-10 10],'k','linewidth',1)
 grid minor
+hold on
+
 
 % Callback function for each point
 function Mouse_Callback(hObj,~,action)
@@ -52,4 +50,4 @@ switch action
             'WindowButtonUpFcn',      '');
 end
 end
-
+end
