@@ -1,8 +1,10 @@
 % Plot a line and points
+
 clear
 clc
-G = tf([1 1 1 ],[1 2 3 1 1 1]);
+G = tf([1 1 1 ],[1 2 3 1 1 1 2 3 1 ]);
 [p,z] = pzmap(G);
+
 figure
 plot(real(p),imag(p),'xr','buttondownfcn',{@Mouse_Callback,'down'});
 hold on
@@ -15,8 +17,10 @@ grid minor
 
 % Callback function for each point
 function Mouse_Callback(hObj,~,action)
+
 persistent curobj xdata ydata ind
 pos = get(gca,'CurrentPoint');
+
 switch action
     case 'down'
         curobj = hObj;
@@ -26,20 +30,19 @@ switch action
         set(gcf,...
             'WindowButtonMotionFcn',  {@Mouse_Callback,'move'},...
             'WindowButtonUpFcn',      {@Mouse_Callback,'up'});
-    case 'move'
-        even_place = mod(ind,2);
-        data_length = length(ydata);
         
-        if ind ~= data_length && even_place
-            ydata(ind-1) = - ydata(ind);
-            xdata(ind-1) = xdata(ind);
+    case 'move'
+        if ydata(ind) ~= 0
+            if ~mod(ind,2) == 1
+                ind = ind - 1;
+            end
+            ydata(ind+1) = - ydata(ind);
+            xdata(ind+1) = xdata(ind);
             ydata(ind) = pos(3);
             set(curobj,'ydata',ydata)
             xdata(ind) = pos(1);
             set(curobj,'xdata',xdata)
-        end
-
-        if ydata(ind) == 0
+        else
             xdata(ind) = pos(1);
             set(curobj,'xdata',xdata)
         end

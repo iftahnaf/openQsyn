@@ -1,17 +1,35 @@
-function conj_place = findConjPlace(ind,ydata,p,z,flag)
-conj_place = 0;
-switch flag{1}
-    case pole
-        for i = length(p)
-            if ydata(ind) == - imag(p(i))
-                conj_place = i;
+function [numOfconj, conjPairs] = findConjPlace(p,z,flag)
+k = 0;
+m = 1;
+A = [];
+switch flag
+    case 'pole' 
+        for i = 1 : length(p)
+            I = imag(p(i));
+            for j = 1 : length(p)
+                J = imag(p(j));
+                if I == - J && I ~=0 
+                    A(m,1) = i;
+                    A(m,2) = j;
+                    k = k + 1;
+                    m =  m+1;
+                end
             end
         end
-    case zero
-        for i = length(z)
-            if ydata(ind) == - imag(z(i))
-                conj_place = i;
+    case 'zero'
+        for i = 1 : length(z)
+            I = imag(z(i));
+            for j = 1 : length(z)
+                J = imag(z(j));
+                if I == - J && I~= 0
+                    A(m,1) = i;
+                    A(m,2) = j;
+                    k = k + 1;
+                    m =  m+1;
+                end
             end
         end
 end
+numOfconj = k/2;
+conjPairs = A.';
 end
