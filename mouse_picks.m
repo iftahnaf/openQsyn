@@ -1,7 +1,7 @@
-function [] = mouse_picks(G)
+function newPos = mouse_picks(G,Controller)
+figure(1)
 [p,z] = pzmap(G);
 
-figure
 plot(real(p),imag(p),'xr','buttondownfcn',{@Mouse_Callback,'down'});
 hold on
 plot(real(z),imag(z),'ob','buttondownfcn',{@Mouse_Callback,'down'});
@@ -49,5 +49,6 @@ switch action
             'WindowButtonMotionFcn',  '',...
             'WindowButtonUpFcn',      '');
 end
+newPos = pos;
 end
 end
