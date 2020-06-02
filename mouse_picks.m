@@ -1,4 +1,4 @@
-function newPos = mouse_picks(G,Controller)
+function [] = mouse_picks(G)
 figure(1)
 [p,z] = pzmap(G);
 
@@ -11,7 +11,7 @@ hold on
 plot([0 0],[-10 10],'k','linewidth',1)
 grid minor
 hold on
-
+% pos = 0;
 
 % Callback function for each point
 function Mouse_Callback(hObj,~,action)
@@ -49,6 +49,6 @@ switch action
             'WindowButtonMotionFcn',  '',...
             'WindowButtonUpFcn',      '');
 end
-newPos = pos;
+assignin("base","newPos",[pos(1) pos(3)])
 end
 end

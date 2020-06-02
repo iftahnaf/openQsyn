@@ -27,7 +27,7 @@ des.cbnd('odsrs')
 
 des.showbnd('odsrs')
 des.showbnd('rsrs')
-%% loop shaping - G
+ 
 h = des.showbnd('odsrs',[],[3 5 7 10 20 50]);
 des.showbnd('rsrs',h,[0.4 0.5 1]);
 
