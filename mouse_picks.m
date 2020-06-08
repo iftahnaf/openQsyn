@@ -1,16 +1,17 @@
-function [h] = mouse_picks(G)
+function [h] = mouse_picks(G,Controller)
+fprintf('%d',Controller.gain(1));
 h = figure;
 [p,z] = pzmap(G);
 plot(real(p),imag(p),'xr','buttondownfcn',{@Mouse_Callback_p,'down'});
 hold on
 plot(real(z),imag(z),'ob','buttondownfcn',{@Mouse_Callback_z,'down'});
 hold on
-plot([-15 15],[0 0],'k','linewidth',1)
+plot([-5 5],[0 0],'k','linewidth',1)
 hold on
-plot([0 0],[-15 15],'k','linewidth',1)
+plot([0 0],[-5 5],'k','linewidth',1)
 grid minor
 hold on
-text(-7.5,7.5,'Close figure after changing poles / zeroes')
+text(-2.5,2.5,'Close figure after changing poles / zeroes')
 
 % Callback function for poles
 function Mouse_Callback_p(hObj,~,action)
